@@ -1,7 +1,12 @@
 import { useId } from "react";
 import css from "./SearchBox.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { changeFilter } from "../../redux/filtersSlice";
 
-export default function SearchBox({ filter, onFilter }) {
+export default function SearchBox() {
+  const filters = useSelector((state) => state.filters.name);
+
+  const dispatch = useDispatch();
   const searchId = useId();
   return (
     <div className={css.searchBox}>
@@ -9,9 +14,9 @@ export default function SearchBox({ filter, onFilter }) {
       <input
         type="name"
         id={searchId}
-        value={filter}
+        value={filters}
         onChange={(e) => {
-          onFilter(e.target.value);
+          dispatch(changeFilter(e.target.value));
         }}
         className={css.inputSearch}
       />
