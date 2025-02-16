@@ -3,10 +3,13 @@ import { useId } from "react";
 import { nanoid } from "nanoid";
 import * as Yup from "yup";
 import css from "./ContactForm.module.css";
+import { useDispatch } from "react-redux";
+import { addContact } from "../../redux/contactsSlice";
 
-const initialValues = { name: "", number: "" };
+export default function ContactForm() {
+  const initialValues = { name: "", number: "" };
+  const dispatch = useDispatch();
 
-export default function ContactForm({ onAdd }) {
   const ContactShema = Yup.object().shape({
     name: Yup.string()
       .min(3, "Too Short!")
@@ -22,7 +25,9 @@ export default function ContactForm({ onAdd }) {
 
   const handleSubmit = (values, actions) => {
     console.log(values);
-    onAdd({ id: nanoid(), name: values.name, number: values.number });
+    dispatch(
+      addContact({ id: nanoid(), name: values.name, number: values.number })
+    );
     actions.resetForm();
   };
 
